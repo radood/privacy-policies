@@ -1,43 +1,250 @@
-<h1>Legtris</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legtris – Classic Block Stacking Game</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<p>
-Experience a revolutionary twist on the classic block puzzle!
-Legtris combines the timeless gameplay of clearing lines with intense, strategic boss battles that will test your reflexes and planning like never before.
-CLASSIC PUZZLE, EPIC CHALLENGES Stack tetrominoes, clear lines, and rack up high scores. But stay alert—the game changes when a Boss appears! These massive entities disrupt your board, spawn special bricks, and require clever strategies to defeat. Clear the boss-specific bricks to emerge victorious and advance to the next level.
-BATTLE UNIQUE BOSSES The journey is paved with powerful foes. Every few levels, a new boss challenges your supremacy. From shifting patterns to indestructible obstacles, each boss brings a unique mechanic to the board. Can you handle the pressure when the screen starts filling up?
-MULTIPLE GAME MODES
-•
-Normal Mode: The definitive experience. Rise through the levels, defeat the gauntlet of bosses, and reach the final showdown.
-•
-Hardcore Mode: For those who crave speed. Start at maximum difficulty with darker visuals and more aggressive gameplay. One mistake could be your last!
-•
-Infinite Mode: Think you're the best? After defeating the final boss in Hardcore, enter Infinite Mode where the speed never stops increasing. How long can you survive?
-KEY FEATURES:
-•
-Dynamic Combo System: Chain line clears for massive score multipliers and legendary voice cues like "Fantastic!" and "Crazy!"
-•
-Tactical "Hold" Mechanic: Save that crucial piece for the perfect moment to turn the tide of a boss battle.
-•
-Hall of Fame: Secure your place among the legends. Track your high scores and compete for the top spot.
-•
-Token Store & Continues: Earn tokens through gameplay milestones and new records. Use them for strategic continues to keep your epic run alive.
-•
-Immersive Audio: Satisfying sound effects and energetic voice lines that cheer you on as you dominate the board.
-MASTER THE BRICKS Whether you’re a casual player looking for a fun puzzle or a hardcore veteran seeking the ultimate test of skill, Legtris offers a fresh, exciting, and challenging take on the block-stacking genre.
-Download Legtris today and see if you have what it takes to defeat the bosses and conquer the board!
-</p>
+    :root {
+      --bg: #0e0e12;
+      --surface: #16161c;
+      --border: #2a2a35;
+      --accent: #7c6cff;
+      --accent2: #ff6c9d;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --mono: 'DM Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
 
-<p>
-This application uses Google Play Games Services for authentication and gameplay features.
-</p>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
 
-<p>
-Privacy Policy:
-<a href="https://radood.github.io/privacy-policies/legtris-privacy-policy.html">
-View Privacy Policy
-</a>
-</p>
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-<p>
-Contact: radoodle.dev@gmail.com
-</p>
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    header {
+      margin-bottom: 56px;
+      text-align: center;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 40px 32px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #c8c8d8;
+      font-weight: 300;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(124, 108, 255, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(124, 108, 255, 0.5);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      font-family: var(--mono);
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <header>
+      <h1 class="logo">LEGTRIS</h1>
+      <p class="tagline">Classic Block Stacking</p>
+    </header>
+
+    <div class="hero">
+      <p>
+        Master the art of precision stacking in this addictive puzzle game. 
+        Clear lines, rack up combos, and push your skills to the limit.
+      </p>
+      <a href="https://play.google.com/store/apps/details?id=com.legtris.game" class="cta-button">
+        <span>Download on Google Play</span>
+      </a>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🎮</div>
+        <h3>Classic Gameplay</h3>
+        <p>Timeless block-stacking mechanics that are easy to learn but hard to master.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🪙</div>
+        <h3>Token System</h3>
+        <p>Earn or purchase tokens to continue after game over and keep your streak alive.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛠️</div>
+        <h3>In-Game Helpers</h3>
+        <p>Unlock 4 unique helpers to assist with tricky situations and boost your score.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Free to Play</h3>
+        <p>Ad-supported and completely free. Play anytime, anywhere on your Android device.</p>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="./legtris-privacy-policy.html">Privacy Policy</a>
+      <a href="./legtris-terms-and-conditions.html">Terms &amp; Conditions</a>
+      <a href="mailto:radoodle.dev@gmail.com">Contact</a>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Radoodle. All rights reserved.</p>
+    </footer>
+
+  </div>
+</body>
+</html>
